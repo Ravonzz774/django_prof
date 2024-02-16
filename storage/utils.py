@@ -35,6 +35,10 @@ def custom_exception_handler(exc, context):
             }
             response.status_code = 403
 
+        if exc.__class__ in [exceptions.ValidationError]:
+            response.data = {"success": False, "message": exc.detail}
+
+
     return response
 
 

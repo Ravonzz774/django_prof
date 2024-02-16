@@ -143,3 +143,5 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'storage.User'
+
+APPEND_SLASH = False

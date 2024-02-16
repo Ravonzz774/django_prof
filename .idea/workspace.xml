@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acc8e2ae-72c1-45a7-ab18-05d87587631b" name="Changes" comment="first_commit">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/utils.py" afterDir="false" />
+    <list default="true" id="acc8e2ae-72c1-45a7-ab18-05d87587631b" name="Changes" comment="added upload files and download files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CloudStorage/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/CloudStorage/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CloudStorage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CloudStorage/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/storage/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/storage/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,8 +105,17 @@
       <updated>1707890039980</updated>
       <workItem from="1707890060394" duration="10855000" />
       <workItem from="1707972057884" duration="20038000" />
-      <workItem from="1708056315879" duration="9607000" />
+      <workItem from="1708056315879" duration="21114000" />
     </task>
+    <task id="LOCAL-00001" summary="added upload files and download files">
+      <option name="closed" value="true" />
+      <created>1708066099546</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1708066099546</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,6 +123,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first_commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="first_commit" />
+    <MESSAGE value="added upload files and download files" />
+    <option name="LAST_COMMIT_MESSAGE" value="added upload files and download files" />
   </component>
 </project>

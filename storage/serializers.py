@@ -119,7 +119,6 @@ class DownloadFileSerializer(serializers.Serializer):
             if user.files.filter(file_id=validated_data['file_id']).exists():
                 file_field = user.files.filter(file_id=validated_data['file_id']).first()
                 file = file_field.file
-                # file.name = file_field.filename
 
                 return {
                     'file': file,
@@ -131,3 +130,136 @@ class DownloadFileSerializer(serializers.Serializer):
         raise exceptions.NotFound()
 
 
+class DeleteFileSerializer(serializers.Serializer):
+    file_id = serializers.CharField(required=True)
+
+    def create(self, validated_data):
+        user = validated_data.pop('user', None)
+
+        if File.objects.filter(file_id=validated_data['file_id']).exists():
+            if user.files.filter(file_id=validated_data['file_id']).exists():
+                file = File.objects.filter(file_id=validated_data['file_id']).first()
+                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
+                if accessField.isOwner:
+                    file.delete()
+                    accessField.delete()
+                    return {
+                        "success": True,
+                        "message": "File already deleted"
+                    }
+
+            raise exceptions.PermissionDenied()
+        raise exceptions.NotFound()
+
+
+class RenameFileSerializer(serializers.Serializer):
+    file_id = serializers.CharField(required=True)
+    name = serializers.CharField(required=True)
+    def create(self, validated_data):
+        user = validated_data.pop('user', None)
+
+        if File.objects.filter(file_id=validated_data['file_id']).exists():
+            if user.files.filter(file_id=validated_data['file_id']).exists():
+                file = File.objects.filter(file_id=validated_data['file_id']).first()
+                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
+                if accessField.isOwner:
+                    if not user.files.filter(file_id=file.file_id, filename=validated_data['name']).exists():
+                        file.filename = validated_data['name']
+                        file.save()
+                        return {
+                                "success": True,
+                                "message": "Renamed"
+                            }
+
+                    raise serializers.ValidationError({'name': 'Current file name is already taken'})
+
+            raise exceptions.PermissionDenied()
+        raise exceptions.NotFound()
+
+
+class AddAccessSerializer(serializers.Serializer):
+    file_id = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
+
+    def create(self, validated_data):
+        user = validated_data.pop('user', None)
+
+        if File.objects.filter(file_id=validated_data['file_id']).exists():
+            if user.files.filter(file_id=validated_data['file_id']).exists():
+                file = File.objects.filter(file_id=validated_data['file_id']).first()
+                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
+                if accessField.isOwner:
+                    if User.objects.filter(username=validated_data['email']).exists():
+                        addedUser = User.objects.filter(username=validated_data['email']).first()
+                        if not Access.objects.filter(file_id=file.id, user_id=addedUser.id).exists():
+                            access = Access(user=addedUser, file=file)
+                            access.save()
+
+                        response = []
+                        accesses = Access.objects.filter(file_id=file.id).all()
+                        for ac in accesses:
+                            userType = 'co-author'
+                            if ac.isOwner:
+                                userType = 'author'
+                            response.append(
+                                {
+                                    'full_name': ac.user.get_full_name(),
+                                    'email': ac.user.username,
+                                    'type': userType,
+
+                                }
+                            )
+
+                        return response
+
+                    raise serializers.ValidationError({'email': 'User does not exist'})
+
+
+            raise exceptions.PermissionDenied()
+        raise exceptions.NotFound()
+
+
+
+
+class RemoveAccessSerializer(serializers.Serializer):
+    file_id = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
+
+    def create(self, validated_data):
+        user = validated_data.pop('user', None)
+
+        if File.objects.filter(file_id=validated_data['file_id']).exists():
+            if user.files.filter(file_id=validated_data['file_id']).exists():
+                file = File.objects.filter(file_id=validated_data['file_id']).first()
+                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
+                if accessField.isOwner:
+                    if User.objects.filter(username=validated_data['email']).exists():
+                        addedUser = User.objects.filter(username=validated_data['email']).first()
+                        if Access.objects.filter(file_id=file.id, user_id=addedUser.id).exists():
+                            access = Access.objects.filter(file_id=file.id, user_id=addedUser.id).first()
+                            if not access.isOwner:
+                                access.delete()
+
+
+
+                        response = []
+                        accesses = Access.objects.filter(file_id=file.id).all()
+                        for ac in accesses:
+                            userType = 'co-author'
+                            if ac.isOwner:
+                                userType = 'author'
+                            response.append(
+                                {
+                                    'full_name': ac.user.get_full_name(),
+                                    'email': ac.user.username,
+                                    'type': userType,
+                                }
+                            )
+
+                        return response
+
+                    raise serializers.ValidationError({'email': 'User does not exist'})
+
+
+            raise exceptions.PermissionDenied()
+        raise exceptions.NotFound()
