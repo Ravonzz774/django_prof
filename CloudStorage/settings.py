@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=tdmq80-%ii$v81aq8r77qu4^85x77yxxhc2pir+q!ifew$4b!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -137,7 +137,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'EXCEPTION_HANDLER': 'storage.utils.custom_exception_handler',
+    'DEFAULT_404_VIEW_CLASS': 'storage.utils.Custom404View'
 }
 
 AUTH_USER_MODEL = 'storage.User'

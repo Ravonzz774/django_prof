@@ -21,5 +21,10 @@ from storage import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration', views.RegisterView.as_view()),
-    path('authorization', views.LoginView.as_view())
+    path('authorization', views.LoginView.as_view()),
+    path('logout', views.LogoutView.as_view()),
+    path('files', views.FileUpload.as_view()),
+    path('files/<file_id>/', views.FileView.as_view()),
 ]
+
+handler404 = 'storage.utils.custom404view'

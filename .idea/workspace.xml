@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="acc8e2ae-72c1-45a7-ab18-05d87587631b" name="Changes" comment="first_commit">
-      <change afterPath="$PROJECT_DIR$/.idea/CloudStorage.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CloudStorage/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CloudStorage/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CloudStorage/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CloudStorage/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CloudStorage/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CloudStorage/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/CloudStorage/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CloudStorage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CloudStorage/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/storage/serializers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,9 +27,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2cLTpDoWP3baRpMv7eXQrCkRO8o" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -49,6 +42,7 @@
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -56,6 +50,11 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -106,6 +105,8 @@
       <option name="presentableId" value="Default" />
       <updated>1707890039980</updated>
       <workItem from="1707890060394" duration="10855000" />
+      <workItem from="1707972057884" duration="20038000" />
+      <workItem from="1708056315879" duration="9607000" />
     </task>
     <servers />
   </component>
