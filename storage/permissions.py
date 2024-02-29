@@ -15,7 +15,7 @@ class IsOwnerPermission(BasePermission):
             file = File.objects.filter(file_id=file_id).first()
             if file is None:
                 raise exceptions.NotFound()
-            if (file) and (Access.objects.filter(user=request.user, file=file, isOwner=True).exists()):
+            if Access.objects.filter(user=request.user, file=file, isOwner=True).exists():
                 return True
 
         return False
@@ -31,7 +31,8 @@ class IsAccessPermission(BasePermission):
             file = File.objects.filter(file_id=file_id).first()
             if file is None:
                 raise exceptions.NotFound()
-            if (file) and (Access.objects.filter(user=request.user, file=file).exists()):
+
+            if Access.objects.filter(user=request.user, file=file).exists():
                 return True
 
         return False

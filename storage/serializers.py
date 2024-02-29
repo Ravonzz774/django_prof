@@ -178,12 +178,12 @@ class RemoveAccessSerializer(serializers.Serializer):
         addedUser = User.objects.filter(username=validated_data['email']).first()
 
         if addedUser:
-            if not Access.objects.filter(file_id=file.id, user_id=addedUser.id).exists():
-                access = Access.objects.filter(file_id=file.id, user_id=addedUser.id).first()
+            if Access.objects.filter(file=file.id, user=addedUser.id).exists():
+                access = Access.objects.filter(file=file.id, user=addedUser.id).first()
                 if not access.isOwner:
                     access.delete()
 
-            accesses = Access.objects.filter(file_id=file.id).all()
+            accesses = Access.objects.filter(file=file.id).all()
             return generateFileAccessesResponse(accesses)
 
         raise serializers.ValidationError({'email': 'User does not exist'})
@@ -194,21 +194,9 @@ class UserFilesSerializer(serializers.Serializer):
         user = validated_data.pop('user', None)
 
         response = []
-        for file in user.files.all():
-            file_accesses = []
+        for file in Access.objects.filter(user=user, isOwner=True).all():
             accesses = Access.objects.filter(file_id=file.id).all()
-            for ac in accesses:
-                userType = 'co-author'
-                if ac.isOwner:
-                    userType = 'author'
-                file_accesses.append(
-                    {
-                        'full_name': ac.user.get_full_name(),
-                        'email': ac.user.username,
-                        'type': userType,
-                    }
-                )
-
+            file_accesses = generateFileAccessesResponse(accesses)
             response.append({
                 'file_id': file.file_id,
                 'name': file.filename,
