@@ -45,3 +45,19 @@ def custom_exception_handler(exc, context):
 def custom404view(request, exception):
     response = JsonResponse({"message": "Not found"}, status=404)
     return response
+
+
+def generateFileAccessesResponse(accesses):
+    response = []
+    for ac in accesses:
+        userType = 'co-author'
+        if ac.isOwner:
+            userType = 'author'
+        response.append(
+            {
+                'full_name': ac.user.get_full_name(),
+                'email': ac.user.username,
+                'type': userType,
+            }
+        )
+    return response

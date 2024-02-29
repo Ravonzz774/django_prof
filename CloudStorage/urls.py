@@ -24,8 +24,10 @@ urlpatterns = [
     path('authorization', views.LoginView.as_view()),
     path('logout', views.LogoutView.as_view()),
     path('files', views.FileUpload.as_view()),
+    path('files/disk', views.UserFilesView.as_view()),
     path('files/<file_id>', views.FileView.as_view()),
     path('files/<file_id>/access', views.AccessView.as_view()),
+    path('shared', views.UserAccessesView.as_view()),
 ]
 
 handler404 = 'storage.utils.custom404view'

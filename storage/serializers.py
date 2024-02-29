@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 
 from .models import User, File, Access
-from .utils import generateFileId
+from .utils import generateFileId, generateFileAccessesResponse
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -111,45 +111,25 @@ class UploadFileSerializer(serializers.Serializer):
 
 class DownloadFileSerializer(serializers.Serializer):
     file_id = serializers.CharField(required=True)
-
     def create(self, validated_data):
-        user = validated_data.pop('user', None)
+        file = File.objects.filter(file_id=validated_data['file_id']).first()
 
-        if File.objects.filter(file_id=validated_data['file_id']).exists():
-            if user.files.filter(file_id=validated_data['file_id']).exists():
-                file_field = user.files.filter(file_id=validated_data['file_id']).first()
-                file = file_field.file
-
-                return {
-                    'file': file,
-                    'filename': file_field.filename
-                }
-
-
-            raise exceptions.PermissionDenied()
-        raise exceptions.NotFound()
+        return {
+            'file': file.file,
+            'filename': file.filename
+        }
 
 
 class DeleteFileSerializer(serializers.Serializer):
     file_id = serializers.CharField(required=True)
 
     def create(self, validated_data):
-        user = validated_data.pop('user', None)
-
-        if File.objects.filter(file_id=validated_data['file_id']).exists():
-            if user.files.filter(file_id=validated_data['file_id']).exists():
-                file = File.objects.filter(file_id=validated_data['file_id']).first()
-                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
-                if accessField.isOwner:
-                    file.delete()
-                    accessField.delete()
-                    return {
-                        "success": True,
-                        "message": "File already deleted"
-                    }
-
-            raise exceptions.PermissionDenied()
-        raise exceptions.NotFound()
+        file = File.objects.filter(file_id=validated_data['file_id']).first()
+        file.delete()
+        return {
+            "success": True,
+            "message": "File already deleted"
+        }
 
 
 class RenameFileSerializer(serializers.Serializer):
@@ -157,24 +137,17 @@ class RenameFileSerializer(serializers.Serializer):
     name = serializers.CharField(required=True)
     def create(self, validated_data):
         user = validated_data.pop('user', None)
+        file = File.objects.filter(file_id=validated_data['file_id']).first()
 
-        if File.objects.filter(file_id=validated_data['file_id']).exists():
-            if user.files.filter(file_id=validated_data['file_id']).exists():
-                file = File.objects.filter(file_id=validated_data['file_id']).first()
-                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
-                if accessField.isOwner:
-                    if not user.files.filter(file_id=file.file_id, filename=validated_data['name']).exists():
-                        file.filename = validated_data['name']
-                        file.save()
-                        return {
-                                "success": True,
-                                "message": "Renamed"
-                            }
+        if not user.files.filter(file_id=file.file_id, filename=validated_data['name']).exists():
+            file.filename = validated_data['name']
+            file.save()
+            return {
+                    "success": True,
+                    "message": "Renamed"
+                }
 
-                    raise serializers.ValidationError({'name': 'Current file name is already taken'})
-
-            raise exceptions.PermissionDenied()
-        raise exceptions.NotFound()
+        raise serializers.ValidationError({'name': 'Current file name is already taken'})
 
 
 class AddAccessSerializer(serializers.Serializer):
@@ -182,43 +155,18 @@ class AddAccessSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
     def create(self, validated_data):
-        user = validated_data.pop('user', None)
+        file = File.objects.filter(file_id=validated_data['file_id']).first()
+        addedUser = User.objects.filter(username=validated_data['email']).first()
 
-        if File.objects.filter(file_id=validated_data['file_id']).exists():
-            if user.files.filter(file_id=validated_data['file_id']).exists():
-                file = File.objects.filter(file_id=validated_data['file_id']).first()
-                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
-                if accessField.isOwner:
-                    if User.objects.filter(username=validated_data['email']).exists():
-                        addedUser = User.objects.filter(username=validated_data['email']).first()
-                        if not Access.objects.filter(file_id=file.id, user_id=addedUser.id).exists():
-                            access = Access(user=addedUser, file=file)
-                            access.save()
+        if addedUser:
+            if not Access.objects.filter(file_id=file.id, user_id=addedUser.id).exists():
+                access = Access(user=addedUser, file=file)
+                access.save()
 
-                        response = []
-                        accesses = Access.objects.filter(file_id=file.id).all()
-                        for ac in accesses:
-                            userType = 'co-author'
-                            if ac.isOwner:
-                                userType = 'author'
-                            response.append(
-                                {
-                                    'full_name': ac.user.get_full_name(),
-                                    'email': ac.user.username,
-                                    'type': userType,
+            accesses = Access.objects.filter(file_id=file.id).all()
+            return generateFileAccessesResponse(accesses)
 
-                                }
-                            )
-
-                        return response
-
-                    raise serializers.ValidationError({'email': 'User does not exist'})
-
-
-            raise exceptions.PermissionDenied()
-        raise exceptions.NotFound()
-
-
+        raise serializers.ValidationError({'email': 'User does not exist'})
 
 
 class RemoveAccessSerializer(serializers.Serializer):
@@ -226,40 +174,63 @@ class RemoveAccessSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
     def create(self, validated_data):
+        file = File.objects.filter(file_id=validated_data['file_id']).first()
+        addedUser = User.objects.filter(username=validated_data['email']).first()
+
+        if addedUser:
+            if not Access.objects.filter(file_id=file.id, user_id=addedUser.id).exists():
+                access = Access.objects.filter(file_id=file.id, user_id=addedUser.id).first()
+                if not access.isOwner:
+                    access.delete()
+
+            accesses = Access.objects.filter(file_id=file.id).all()
+            return generateFileAccessesResponse(accesses)
+
+        raise serializers.ValidationError({'email': 'User does not exist'})
+
+
+class UserFilesSerializer(serializers.Serializer):
+    def create(self, validated_data):
         user = validated_data.pop('user', None)
 
-        if File.objects.filter(file_id=validated_data['file_id']).exists():
-            if user.files.filter(file_id=validated_data['file_id']).exists():
-                file = File.objects.filter(file_id=validated_data['file_id']).first()
-                accessField = Access.objects.filter(file_id=file.id, user_id=user.id).first()
-                if accessField.isOwner:
-                    if User.objects.filter(username=validated_data['email']).exists():
-                        addedUser = User.objects.filter(username=validated_data['email']).first()
-                        if Access.objects.filter(file_id=file.id, user_id=addedUser.id).exists():
-                            access = Access.objects.filter(file_id=file.id, user_id=addedUser.id).first()
-                            if not access.isOwner:
-                                access.delete()
+        response = []
+        for file in user.files.all():
+            file_accesses = []
+            accesses = Access.objects.filter(file_id=file.id).all()
+            for ac in accesses:
+                userType = 'co-author'
+                if ac.isOwner:
+                    userType = 'author'
+                file_accesses.append(
+                    {
+                        'full_name': ac.user.get_full_name(),
+                        'email': ac.user.username,
+                        'type': userType,
+                    }
+                )
+
+            response.append({
+                'file_id': file.file_id,
+                'name': file.filename,
+                'url': f"django/files/{file.file_id}",
+                'accesses': file_accesses,
+            })
+
+        return response
 
 
+class UserAccessesSerializer(serializers.Serializer):
+    def create(self, validated_data):
+        user = validated_data.pop('user', None)
 
-                        response = []
-                        accesses = Access.objects.filter(file_id=file.id).all()
-                        for ac in accesses:
-                            userType = 'co-author'
-                            if ac.isOwner:
-                                userType = 'author'
-                            response.append(
-                                {
-                                    'full_name': ac.user.get_full_name(),
-                                    'email': ac.user.username,
-                                    'type': userType,
-                                }
-                            )
+        response = []
+        accesses = Access.objects.filter(user_id=user.id, isOwner=False).all()
 
-                        return response
+        for ac in accesses:
+            response.append({
+                'file_id': ac.file.file_id,
+                'name': ac.file.filename,
+                'url': f"django/files/{ac.file.file_id}"
+            })
 
-                    raise serializers.ValidationError({'email': 'User does not exist'})
-
-
-            raise exceptions.PermissionDenied()
-        raise exceptions.NotFound()
+        return response

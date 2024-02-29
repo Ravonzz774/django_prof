@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acc8e2ae-72c1-45a7-ab18-05d87587631b" name="Changes" comment="added upload files and download files">
+    <list default="true" id="acc8e2ae-72c1-45a7-ab18-05d87587631b" name="Changes" comment="added access to file">
+      <change afterPath="$PROJECT_DIR$/storage/permissions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CloudStorage/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/CloudStorage/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CloudStorage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CloudStorage/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/storage/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/storage/utils.py" afterDir="false" />
@@ -26,6 +26,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Ravonzz774&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="4dc40b39-744f-4af2-82a3-b9ea384beed0" />
+        <option name="url" value="https://github.com/Ravonzz774/django_prof.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -35,27 +49,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Django Server.CloudStorage.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Django Server.CloudStorage.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\is61-shalimovva\PycharmProjects\CloudStorage\storage" />
@@ -105,7 +119,9 @@
       <updated>1707890039980</updated>
       <workItem from="1707890060394" duration="10855000" />
       <workItem from="1707972057884" duration="20038000" />
-      <workItem from="1708056315879" duration="21114000" />
+      <workItem from="1708056315879" duration="21585000" />
+      <workItem from="1708408505439" duration="2947000" />
+      <workItem from="1709183191821" duration="5256000" />
     </task>
     <task id="LOCAL-00001" summary="added upload files and download files">
       <option name="closed" value="true" />
@@ -115,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708066099546</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added access to file">
+      <option name="closed" value="true" />
+      <created>1708078351641</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1708078351641</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,6 +148,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first_commit" />
     <MESSAGE value="added upload files and download files" />
-    <option name="LAST_COMMIT_MESSAGE" value="added upload files and download files" />
+    <MESSAGE value="added access to file" />
+    <option name="LAST_COMMIT_MESSAGE" value="added access to file" />
   </component>
 </project>
